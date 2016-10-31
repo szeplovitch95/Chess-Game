@@ -1,16 +1,22 @@
 package model;
 
 public class Pawn extends Piece {
-
-	public Pawn(String position, char color, String role) {
-		super(position, color, role);
-		// TODO Auto-generated constructor stub
+	private boolean enPassing;
+	
+	public Pawn(char color, String role) {
+		super(color, role);
+	}
+	
+	public boolean isEnPassing() {
+		return enPassing;
+	}
+	
+	public void setEnPassing(boolean enPassing) {
+		this.enPassing = enPassing;
 	}
 
 	@Override
-	public boolean isMoveValid(String move) {
-		// TODO Auto-generated method stub
+	public boolean isMoveValid(String origin, String destination) {
 		return false;
 	}
-
 }

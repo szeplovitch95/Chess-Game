@@ -1,10 +1,16 @@
 package chess;
+import model.*;
 
 public class Chess {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		ChessGame cg = new ChessGame(new ChessBoard(), new Player(), new Player());
 
+		
+		
+		
+		
+		
 	}
 
 }

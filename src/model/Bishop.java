@@ -1,8 +1,8 @@
 package model;
 
-public class Knight extends Piece {
-	
-	public Knight(char color, String role) {
+public class Bishop extends Piece {
+
+	public Bishop(char color, String role) {
 		super(color, role);
 	}
 

@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 
 public class ChessGame {
-	private Board board; 
+	private ChessBoard board; 
 	private Player whitePlayer; 
 	private Player blackPlayer;
 	private List<String> allMoves;
@@ -11,17 +11,17 @@ public class ChessGame {
 	
 	public ChessGame() {}
 	
-	public ChessGame(Board board, Player whitePlayer, Player blackPlayer) {
+	public ChessGame(ChessBoard board, Player whitePlayer, Player blackPlayer) {
 		this.board = board; 
 		this.whitePlayer = whitePlayer; 
 		this.blackPlayer = blackPlayer; 
 	}
 
-	public Board getBoard() {
+	public ChessBoard getBoard() {
 		return board;
 	}
 
-	public void setBoard(Board board) {
+	public void setBoard(ChessBoard board) {
 		this.board = board;
 	}
 
@@ -55,5 +55,9 @@ public class ChessGame {
 
 	public void setWinner(String winner) {
 		Winner = winner;
+	}
+	
+	public void addMove(String move) {
+		//implement this method to add a move to the List of all  moves
 	}
 }

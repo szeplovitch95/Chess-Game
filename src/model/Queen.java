@@ -2,15 +2,12 @@ package model;
 
 public class Queen extends Piece {
 
-	public Queen(String position, char color, String role) {
-		super(position, color, role);
-		// TODO Auto-generated constructor stub
+	public Queen(char color, String role) {
+		super(color, role);
 	}
 
 	@Override
-	public boolean isMoveValid(String move) {
-		// TODO Auto-generated method stub
+	public boolean isMoveValid(String origin, String destination) {
 		return false;
 	}
-
 }

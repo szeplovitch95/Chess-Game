@@ -1,25 +1,14 @@
 package model;
 
 public abstract class Piece {
-	private String position;
 	private char color;
 	private String role;
-	
-	
-	public Piece(String position, char color, String role) {
-		this.position = position; 
+
+	public Piece(char color, String role) {
 		this.color = color; 
 		this.role = role; 
 	}
-	
-	public String getPosition() {
-		return position;
-	}
-	
-	public void setPosition(String position) {
-		this.position = position;
-	}
-	
+
 	public String getRole() {
 		return role;
 	}
@@ -36,5 +25,5 @@ public abstract class Piece {
 		this.color = color;
 	}
 	
-	public abstract boolean isMoveValid(String move);
+	public abstract boolean isMoveValid(String origin, String destination);
 }

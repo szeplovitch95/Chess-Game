@@ -1,16 +1,22 @@
 package model;
 
 public class Rook extends Piece {
+	private boolean isMoved;
+	
+	public Rook(char color, String role) {
+		super(color, role);
+	}
+	
+	public boolean isMoved() {
+		return isMoved;
+	}
 
-	public Rook(String position, char color, String role) {
-		super(position, color, role);
-		// TODO Auto-generated constructor stub
+	public void setMoved(boolean isMoved) {
+		this.isMoved = isMoved;
 	}
 
 	@Override
-	public boolean isMoveValid(String move) {
-		// TODO Auto-generated method stub
+	public boolean isMoveValid(String origin, String destination) {
 		return false;
 	}
-
 }
