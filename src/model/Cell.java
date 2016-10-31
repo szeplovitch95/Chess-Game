@@ -4,11 +4,24 @@ package model;
 
 public class Cell {
 	private char color; 
-	private <T>  piece; 
+	private Piece piece; 
+	private String empty;
 	
-	public Cell(char color, <T> piece) {
+	public Cell(String empty) {
+		this.empty = empty;
+	}
+	
+	public Cell(char color, Piece piece) {
 		this.color = color; 
 		this.piece = piece;
+	}
+	
+	public String getEmpty() {
+		return empty;
+	}
+	
+	public void setEmpty(String empty) {
+		this.empty = empty;
 	}
 
 	public Piece getPiece() {
