@@ -1,7 +1,5 @@
 package model;
 
-
-
 public class Cell {
 	private char color; 
 	private Piece piece; 
@@ -16,14 +14,6 @@ public class Cell {
 		this.piece = piece;
 	}
 	
-	public String getEmpty() {
-		return empty;
-	}
-	
-	public void setEmpty(String empty) {
-		this.empty = empty;
-	}
-
 	public Piece getPiece() {
 		return piece;
 	}
@@ -39,4 +29,13 @@ public class Cell {
 	public void setColor(char color) {
 		this.color = color;
 	}
+	
+	public String getEmpty() {
+		return empty;
+	}
+	
+	public void setEmpty(String empty) {
+		this.empty = empty;
+	}
+
 }

@@ -12,6 +12,8 @@ public class ChessBoard {
 	
 	private void initBoard() {
 		int numbered = 8;
+		char lettered = 'a';
+		
 		for(int i = 0; i < cells.length; i++) {
 			for(int j = 0; j < cells.length; j++) {
 				if(j == 8 && i != 8) {
@@ -57,7 +59,7 @@ public class ChessBoard {
 				}
 			}
 		}
-		char lettered = 'a';
+		
 		for(int i = 0; i < cells.length; i++) {
 			cells[8][i].setEmpty("" + lettered);
 			lettered++;
