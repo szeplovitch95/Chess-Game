@@ -5,8 +5,9 @@ public class Cell {
 	private Piece piece; 
 	private String empty;
 	
-	public Cell(String empty) {
+	public Cell(char color, String empty) {
 		this.empty = empty;
+		this.color = color;
 	}
 	
 	public Cell(char color, Piece piece) {
