@@ -7,7 +7,8 @@ public class ChessGame {
 	private Player whitePlayer; 
 	private Player blackPlayer;
 	private List<String> allMoves;
-	private String Winner; 
+	private String Winner;
+	private char prevPlayer;
 	
 	public ChessGame() {}
 	

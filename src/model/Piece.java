@@ -3,6 +3,7 @@ package model;
 public abstract class Piece {
 	private char color;
 	private String role;
+	private String symbol;
 
 	public Piece(char color, String role) {
 		this.color = color; 
