@@ -1,28 +1,28 @@
 package model;
 
 public class ChessBoard {
-	private Cell[][] cells;
+	private Cell[][] board;
 	
 	public ChessBoard() {
-		cells = new Cell[8][8];
+		board = new Cell[8][8];
 		initBoard();
 		printBoard();
 	}
 	
 	private void initBoard() {
-		for(int i = 0; i < cells.length; i++) {
-			for(int j = 0; j < cells.length; j++) {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board.length; j++) {
 				if(i == 1 || i == 3 || i == 5 || i == 7) {
 					if(j % 2 == 0) {
-						cells[i][j] = new Cell('b', "##");						
+						board[i][j] = new Cell('b', "##");						
 					} else {
-						cells[i][j] = new Cell('w', "##");
+						board[i][j] = new Cell('w', "  ");
 					}
 				} else {
 					if(j % 2 == 0) {
-						cells[i][j] = new Cell('w', "##");						
+						board[i][j] = new Cell('w', "  ");						
 					} else {
-						cells[i][j] = new Cell('b', "##");
+						board[i][j] = new Cell('b', "##");
 					}
 				}
 				
@@ -45,60 +45,60 @@ public class ChessBoard {
 	
 
 	private void initBlackPieces() {
-		for(int i = 0; i < cells.length; i++) {
-			for(int j = 0; j < cells.length; j++) {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board.length; j++) {
 				if(i == 1) {
-						cells[i][j].setPiece(new Pawn('b', "P"));						
+					board[i][j].setPiece(new Pawn('b', "p"));						
 				}
 				
 				if((i == 0 && j == 0) || (i == 0 && j == 7) ) {
-					cells[i][j].setPiece(new Rook('b', "R"));
+					board[i][j].setPiece(new Rook('b', "R"));
 				}
 				
 				if((i == 0 && j == 1) || (i == 0 && j == 6) ) {
-					cells[i][j].setPiece(new Knight('b', "N"));
+					board[i][j].setPiece(new Knight('b', "N"));
 				}
 				
 				if((i == 0 && j == 2) || (i == 0 && j == 5) ) {
-					cells[i][j].setPiece(new Bishop('b', "B"));
+					board[i][j].setPiece(new Bishop('b', "B"));
 				}
 				
 				if((i == 0 && j == 3)) {
-					cells[i][j].setPiece(new Queen('b', "Q"));
+					board[i][j].setPiece(new Queen('b', "Q"));
 				}
 				
 				if((i == 0 && j == 4)) {
-					cells[i][j].setPiece(new King('b', "K"));
+					board[i][j].setPiece(new King('b', "K"));
 				}
 			}
 		}
 	}
 	
 	private void initWhitePieces() {
-		for(int i = 0; i < cells.length; i++) {
-			for(int j = 0; j < cells.length; j++) {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board.length; j++) {
 				if(i == 6) {
-						cells[i][j].setPiece(new Pawn('w', "P"));						
+					board[i][j].setPiece(new Pawn('w', "p"));						
 				}
 				
 				if((i == 7 && j == 0) || (i == 7 && j == 7) ) {
-					cells[i][j].setPiece(new Rook('w', "R"));
+					board[i][j].setPiece(new Rook('w', "R"));
 				}
 				
 				if((i == 7 && j == 1) || (i == 7 && j == 6) ) {
-					cells[i][j].setPiece(new Knight('w', "N"));
+					board[i][j].setPiece(new Knight('w', "N"));
 				}
 				
 				if((i == 7 && j == 2) || (i == 7 && j == 5) ) {
-					cells[i][j].setPiece(new Bishop('w', "B"));
+					board[i][j].setPiece(new Bishop('w', "B"));
 				}
 				
 				if((i == 7 && j == 3)) {
-					cells[i][j].setPiece(new King('w', "K"));
+					board[i][j].setPiece(new King('w', "K"));
 				}
 				
 				if((i == 7 && j == 4)) {
-					cells[i][j].setPiece(new Queen('w', "Q"));
+					board[i][j].setPiece(new Queen('w', "Q"));
 				}
 			}
 		}
@@ -114,16 +114,38 @@ public class ChessBoard {
 	
 	
 	public void printBoard() {
-		for(int i = 0; i < cells.length; i++) {
-			for(int j = 0; j < cells.length; j++) {
-				if(cells[i][j].getPiece() == null && cells[i][j].getColor() == 'b') {
-					System.out.print(" " + cells[i][j].getEmpty());
-				} else if(cells[i][j].getPiece() != null){
-					System.out.print( " " + cells[i][j].getColor() + cells[i][j].getPiece().getRole());
-				} else {
-					System.out.print("   ");
+		// Add the initial blank like
+		
+		System.out.println();
+		
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board.length; j++) {
+				if(board[i][j].getPiece() == null) {
+					
+					// we dont want leading spaces
+					if(j == 0){
+						System.out.print(board[i][j].getEmpty());
+					}else{
+						System.out.print(" " + board[i][j].getEmpty());
+					}
+					
+				} else if(board[i][j].getPiece() != null){
+					// we dont want leading spaces
+					if(j == 0){
+						System.out.print(board[i][j].getPiece().getColor() + board[i][j].getPiece().getRole());
+					}else{
+						System.out.print( " " + board[i][j].getPiece().getColor() + board[i][j].getPiece().getRole());
+					}
+				// Print the numbers at the end of the board
+				} if(j == 7 ){
+					System.out.print(" " + (8 - i));
 				}
-			}                                                                                                              
+			}
+			// add the letters at the bottom
+			if(i == 7 ){
+				System.out.println();
+				System.out.print(" a  b  c  d  e  f  g  h");
+			}
 			System.out.println();
 		}
 	}
