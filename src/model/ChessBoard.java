@@ -6,7 +6,6 @@ public class ChessBoard {
 	public ChessBoard() {
 		board = new Cell[8][8];
 		initBoard();
-		printBoard();
 	}
 	
 	private void initBoard() {
@@ -93,11 +92,11 @@ public class ChessBoard {
 					board[i][j].setPiece(new Bishop('w', "B"));
 				}
 				
-				if((i == 7 && j == 3)) {
+				if((i == 7 && j == 4)) {
 					board[i][j].setPiece(new King('w', "K"));
 				}
 				
-				if((i == 7 && j == 4)) {
+				if((i == 7 && j == 3)) {
 					board[i][j].setPiece(new Queen('w', "Q"));
 				}
 			}
@@ -114,9 +113,6 @@ public class ChessBoard {
 	
 	
 	public void printBoard() {
-		// Add the initial blank like
-		
-		System.out.println();
 		
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {

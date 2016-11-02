@@ -3,6 +3,13 @@ package model;
 public class Cell {
 	private char color; 
 	private Piece piece; 
+	
+	
+	
+	
+	
+	
+	
 	private String empty;
 	
 	public Cell(char color, String empty) {
