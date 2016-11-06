@@ -3,8 +3,8 @@ package model;
 public class Rook extends Piece {
 	private boolean isMoved;
 	
-	public Rook(char color, String role) {
-		super(color, role);
+	public Rook(char color, String role, String location) {
+		super(color, role, location);
 	}
 	
 	public boolean isMoved() {

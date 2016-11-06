@@ -4,8 +4,8 @@ public class King extends Piece {
 	private boolean isMoved; 
 	private boolean isInCheck;
 	
-	public King(char color, String role) {
-		super(color, role);
+	public King(char color, String role, String location) {
+		super(color, role, location);
 	}
 
 	public boolean isMoved() {

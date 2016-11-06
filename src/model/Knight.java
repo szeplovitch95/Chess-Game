@@ -2,8 +2,8 @@ package model;
 
 public class Knight extends Piece {
 	
-	public Knight(char color, String role) {
-		super(color, role);
+	public Knight(char color, String role, String location) {
+		super(color, role, location);
 	}
 
 	@Override
