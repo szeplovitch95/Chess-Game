@@ -2,6 +2,7 @@ package chess;
 import model.*;
 
 public class Chess {
+
 	public static ChessGame cg;
 	
 	public static void main(String[] args) {

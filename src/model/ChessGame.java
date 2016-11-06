@@ -23,6 +23,7 @@ public class ChessGame {
 		this.gameOver = false;
 		
 		startPlay();
+
 	}
 	
 	public void startPlay(){
@@ -245,6 +246,7 @@ public class ChessGame {
 	public boolean getDraw(){
 		return draw;
 	}
+	
 	public void setGameOver(){
 		gameOver = true;
 	}
