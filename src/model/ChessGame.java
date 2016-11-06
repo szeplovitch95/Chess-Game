@@ -1,4 +1,5 @@
 package model;
+import chess.Chess;
 
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +10,8 @@ public class ChessGame {
 	private Player blackPlayer;
 	private List<String> allMoves;
 	private boolean draw;
-	private String Winner; 
+	private boolean gameOver;
+	private Player Winner; 
 	
 	public ChessGame() {}
 	
@@ -17,7 +19,8 @@ public class ChessGame {
 		this.board = board; 
 		this.whitePlayer = whitePlayer; 
 		this.blackPlayer = blackPlayer; 
-		draw = false;
+		this.draw = false;
+		this.gameOver = false;
 		
 		startPlay();
 	}
@@ -28,7 +31,7 @@ public class ChessGame {
 		Scanner reader = new Scanner(System.in);
 		
 		// this is where the game execution will loop
-		while(Winner == null){
+		while(Winner == null && gameOver == false){
 			
 			//Print the board
 			board.printBoard();
@@ -52,7 +55,8 @@ public class ChessGame {
 				correctFormat = checkFormat(move);
 			}
 			
-			processInput(move);
+			processInput(move, currentMove);
+			
 		}
 		
 		reader.close();
@@ -113,9 +117,78 @@ public class ChessGame {
 		return retVal;
 	}
 	
-	public void processInput(String input){
+	public void processInput(String input, Player current){
+		
+		String origin, dest;
+		
+		// check to see if a special type of move (resign, draw ect)
+		if(input.equals("resign")){
+			//set game over
+			setGameOver();			
+			return;
+		}else if(input.equals("draw")){
+			
+			if(getDraw()){
+				setGameOver();
+				return;
+			}
+		}else if(input.length() == 11){
+			// current player is asking for a draw
+			// break up the input into origin and destination
+			origin = input.substring(0, 2);
+			dest = input.substring(2, 4);
+			
+			// check to see if there is a valid piece at the origin
+			if(board.findPiece(origin) == null){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				System.out.println();
+				return;
+			}
+			else{
+				if(board.findPiece(origin).isMoveValid(origin, dest)){
+					// make the move
+					board.movePiece(origin, dest);
+				}
+			}
+			
+			setDraw();
+			
+		}else if (input.length() == 7){
+			// player is looking for a promotion
+			// break up the input into origin and destination
+			origin = input.substring(0, 2);
+			dest = input.substring(2, 4);
+			
+			// check to see if there is a valid piece at the origin
+			if(board.findPiece(origin) == null){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				System.out.println();
+				return;
+			}
+			else{
+				if(board.findPiece(origin).isMoveValid(origin, dest)){
+					// make the move
+					board.movePiece(origin, dest);
+				}
+			}
+			
+			// Set pawn to promoted piece
+			
+		}
+		// break up the input into origin and destination
+		
+		// check to see if theres a piece at the origin
+		
+		// check to see if move is valid (call the pieces method)
+		
+		// HOW TO SEE IF OPPONENT IS IN CHECK AFTER THIS MOVE?
+		// HOW TO SEE IF THIS MOVE IS PUTTING THE USER IN CHECK?
 		
 	}
+	
+
 
 	public ChessBoard getBoard() {
 		return board;
@@ -156,12 +229,19 @@ public class ChessGame {
 	public boolean getDraw(){
 		return draw;
 	}
+	public void setGameOver(){
+		gameOver = true;
+	}
+	
+	public boolean getGameOver(){
+		return gameOver;
+	}
 
-	public String getWinner() {
+	public Player getWinner() {
 		return Winner;
 	}
 
-	public void setWinner(String winner) {
+	public void setWinner(Player winner) {
 		Winner = winner;
 	}
 	

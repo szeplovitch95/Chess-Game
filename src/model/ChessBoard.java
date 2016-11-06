@@ -1,4 +1,5 @@
 package model;
+import chess.Chess;
 
 public class ChessBoard {
 	private Cell[][] board;
@@ -34,8 +35,9 @@ public class ChessBoard {
 	}
 	
 	//implement this method to find what type of piece is located in the origin.
-	private Piece findPiece(String origin) {
-		return null;
+	public Piece findPiece(String origin) {
+		int coord[] = Chess.stringToCoordinants(origin);
+		return board[coord[0]][coord[1]].getPiece();
 	}
 	
 	public void clearBoard() {
@@ -47,27 +49,27 @@ public class ChessBoard {
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
 				if(i == 1) {
-					board[i][j].setPiece(new Pawn('b', "p"));						
+					board[i][j].setPiece(new Pawn('b', "p", Chess.coordinatesToString(i, j)));	
 				}
 				
 				if((i == 0 && j == 0) || (i == 0 && j == 7) ) {
-					board[i][j].setPiece(new Rook('b', "R"));
+					board[i][j].setPiece(new Rook('b', "R", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 0 && j == 1) || (i == 0 && j == 6) ) {
-					board[i][j].setPiece(new Knight('b', "N"));
+					board[i][j].setPiece(new Knight('b', "N", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 0 && j == 2) || (i == 0 && j == 5) ) {
-					board[i][j].setPiece(new Bishop('b', "B"));
+					board[i][j].setPiece(new Bishop('b', "B", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 0 && j == 3)) {
-					board[i][j].setPiece(new Queen('b', "Q"));
+					board[i][j].setPiece(new Queen('b', "Q", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 0 && j == 4)) {
-					board[i][j].setPiece(new King('b', "K"));
+					board[i][j].setPiece(new King('b', "K", Chess.coordinatesToString(i, j)));
 				}
 			}
 		}
@@ -77,27 +79,27 @@ public class ChessBoard {
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
 				if(i == 6) {
-					board[i][j].setPiece(new Pawn('w', "p"));						
+					board[i][j].setPiece(new Pawn('w', "p", Chess.coordinatesToString(i, j)));						
 				}
 				
 				if((i == 7 && j == 0) || (i == 7 && j == 7) ) {
-					board[i][j].setPiece(new Rook('w', "R"));
+					board[i][j].setPiece(new Rook('w', "R", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 7 && j == 1) || (i == 7 && j == 6) ) {
-					board[i][j].setPiece(new Knight('w', "N"));
+					board[i][j].setPiece(new Knight('w', "N", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 7 && j == 2) || (i == 7 && j == 5) ) {
-					board[i][j].setPiece(new Bishop('w', "B"));
+					board[i][j].setPiece(new Bishop('w', "B", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 7 && j == 4)) {
-					board[i][j].setPiece(new King('w', "K"));
+					board[i][j].setPiece(new King('w', "K", Chess.coordinatesToString(i, j)));
 				}
 				
 				if((i == 7 && j == 3)) {
-					board[i][j].setPiece(new Queen('w', "Q"));
+					board[i][j].setPiece(new Queen('w', "Q", Chess.coordinatesToString(i, j)));
 				}
 			}
 		}

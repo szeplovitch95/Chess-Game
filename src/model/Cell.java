@@ -2,14 +2,7 @@ package model;
 
 public class Cell {
 	private char color; 
-	private Piece piece; 
-	
-	
-	
-	
-	
-	
-	
+	private Piece piece;	
 	private String empty;
 	
 	public Cell(char color, String empty) {
@@ -20,6 +13,14 @@ public class Cell {
 	public Cell(char color, Piece piece) {
 		this.color = color; 
 		this.piece = piece;
+	}
+	
+	public boolean isEmpty(){
+		if(piece == null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public Piece getPiece() {

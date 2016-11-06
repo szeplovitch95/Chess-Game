@@ -3,8 +3,8 @@ package model;
 public class Pawn extends Piece {
 	private boolean enPassing;
 	
-	public Pawn(char color, String role) {
-		super(color, role);
+	public Pawn(char color, String role, String location) {
+		super(color, role, location);
 	}
 	
 	public boolean isEnPassing() {
@@ -13,6 +13,10 @@ public class Pawn extends Piece {
 	
 	public void setEnPassing(boolean enPassing) {
 		this.enPassing = enPassing;
+	}
+	
+	public void setPromotion(String move){
+		
 	}
 
 	@Override

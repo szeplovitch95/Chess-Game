@@ -2,8 +2,8 @@ package model;
 
 public class Bishop extends Piece {
 
-	public Bishop(char color, String role) {
-		super(color, role);
+	public Bishop(char color, String role, String location) {
+		super(color, role, location);
 	}
 
 	@Override
