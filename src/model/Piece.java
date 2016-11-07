@@ -31,6 +31,10 @@ public abstract class Piece {
 		return location;
 	}
 	
-	public abstract boolean isMoveValid(String origin, String destination);
+	public void setLocation(String loc){
+		this.location = loc;
+	}
+	
+	public abstract boolean isMoveValid(String origin, String destination, ChessBoard board);
 
 }

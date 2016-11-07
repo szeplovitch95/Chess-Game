@@ -11,7 +11,8 @@ public class ChessGame {
 	private List<String> allMoves;
 	private boolean draw;
 	private boolean gameOver;
-	private Player Winner; 
+	private Player currentMove;
+	private Player Winner;
 	
 	public ChessGame() {}
 	
@@ -26,8 +27,8 @@ public class ChessGame {
 	}
 	
 	public void startPlay(){
-		boolean correctFormat;
-		Player currentMove = whitePlayer;
+		boolean correctFormat, validMove;
+		currentMove = whitePlayer;
 		Scanner reader = new Scanner(System.in);
 		
 		// this is where the game execution will loop
@@ -55,7 +56,29 @@ public class ChessGame {
 				correctFormat = checkFormat(move);
 			}
 			
-			processInput(move, currentMove);
+			validMove = processInput(move, currentMove);
+			while(!validMove){
+				if(currentMove.getPlayerColor() == 'w'){
+					System.out.print("White's move: ");
+				}else{
+					System.out.print("Black's move: ");
+				}
+				move = reader.nextLine();
+				validMove = processInput(move, currentMove);
+			}
+			
+			// Update piece outlooks (en passant, check...)
+			if(board.getEnPassantEligible() != null){
+				Pawn EP = (Pawn)board.getEnPassantEligible();
+				if(EP.getColor() != currentMove.getPlayerColor()){
+					// not eligible anymore
+					board.clearEnPassant();
+				}
+			}
+			
+			System.out.println();
+			switchPlayer();
+			
 			
 		}
 		
@@ -117,39 +140,51 @@ public class ChessGame {
 		return retVal;
 	}
 	
-	public void processInput(String input, Player current){
+	public boolean processInput(String input, Player current){
 		
-		String origin, dest;
+		String origin = "";
+		String dest = "";
 		
 		// check to see if a special type of move (resign, draw ect)
 		if(input.equals("resign")){
 			//set game over
 			setGameOver();			
-			return;
+			return true;
 		}else if(input.equals("draw")){
 			
 			if(getDraw()){
 				setGameOver();
-				return;
+				return true;
 			}
+		}else if(input.substring(0, 2).equals(input.substring(3, 5))){
+			// not moving anything
+			System.out.println("Illegal move, try again.");
+			return false;
+			
 		}else if(input.length() == 11){
 			// current player is asking for a draw
 			// break up the input into origin and destination
 			origin = input.substring(0, 2);
-			dest = input.substring(2, 4);
+			dest = input.substring(3, 5);
 			
 			// check to see if there is a valid piece at the origin
 			if(board.findPiece(origin) == null){
 				// not a valid move
 				System.out.println("Illegal move, try again.");
-				System.out.println();
-				return;
-			}
-			else{
-				if(board.findPiece(origin).isMoveValid(origin, dest)){
-					// make the move
-					board.movePiece(origin, dest);
-				}
+				return false;
+				
+			}else if(board.findPiece(origin).getColor() != currentMove.getPlayerColor()){
+				// player trying to move a piece that is not theirs
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(!board.findPiece(origin).isMoveValid(origin, dest, board)){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				return false;
+			}else{
+				// valid move
+				board.movePiece(origin, dest);
 			}
 			
 			setDraw();
@@ -158,34 +193,78 @@ public class ChessGame {
 			// player is looking for a promotion
 			// break up the input into origin and destination
 			origin = input.substring(0, 2);
-			dest = input.substring(2, 4);
+			dest = input.substring(3, 5);
 			
 			// check to see if there is a valid piece at the origin
 			if(board.findPiece(origin) == null){
 				// not a valid move
 				System.out.println("Illegal move, try again.");
-				System.out.println();
-				return;
-			}
-			else{
-				if(board.findPiece(origin).isMoveValid(origin, dest)){
+				return false;
+				
+			}else if(!board.findPiece(origin).getRole().equals("p")){
+				// can only promote pawns
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(board.findPiece(origin).getColor() != currentMove.getPlayerColor()){
+				// player trying to move a piece that is not theirs
+				System.out.println("Illegal move, try again.");
+				return false;
+			
+			}else if(!board.findPiece(origin).isMoveValid(origin, dest, board)){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else{
+				// make sure pawn is in promotable position
+				if(dest.charAt(1) == '1' || dest.charAt(1) == '8'){
 					// make the move
 					board.movePiece(origin, dest);
+					
+					// set pawn to the promoted piece
+					board.promotePawn(dest, input.charAt(6));
+					
+				}else{
+					// pawn is not in the position to be promoted
+					System.out.println("Illegal move, try again.");
+					return false;
 				}
 			}
 			
-			// Set pawn to promoted piece
+		}else{
+			// normal move
+			// break up the input into origin and destination
+			origin = input.substring(0, 2);
+			dest = input.substring(3, 5);
+			
+			// check to see if there is a valid piece at the origin
+			if(board.findPiece(origin) == null){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(board.findPiece(origin).getColor() != currentMove.getPlayerColor()){
+				// player trying to move a piece that is not theirs
+				System.out.println("Illegal move, try again.");
+				return false;
+			
+			}else if(!board.findPiece(origin).isMoveValid(origin, dest, board)){
+				// not a valid move
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else{
+				// valid move
+				board.movePiece(origin, dest);
+			}
 			
 		}
-		// break up the input into origin and destination
-		
-		// check to see if theres a piece at the origin
-		
-		// check to see if move is valid (call the pieces method)
+
 		
 		// HOW TO SEE IF OPPONENT IS IN CHECK AFTER THIS MOVE?
 		// HOW TO SEE IF THIS MOVE IS PUTTING THE USER IN CHECK?
-		
+		return true;
 	}
 	
 
@@ -229,6 +308,7 @@ public class ChessGame {
 	public boolean getDraw(){
 		return draw;
 	}
+	
 	public void setGameOver(){
 		gameOver = true;
 	}
@@ -243,6 +323,14 @@ public class ChessGame {
 
 	public void setWinner(Player winner) {
 		Winner = winner;
+	}
+	
+	public void switchPlayer(){
+		if(currentMove == whitePlayer){
+			currentMove = blackPlayer;
+		}else{
+			currentMove = whitePlayer;
+		}
 	}
 	
 	public void addMove(String move) {

@@ -25,7 +25,7 @@ public class King extends Piece {
 	}
 	
 	@Override
-	public boolean isMoveValid(String origin, String destination) {
+	public boolean isMoveValid(String origin, String destination, ChessBoard board) {
 		return false;
 	}
 }

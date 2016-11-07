@@ -2,7 +2,8 @@ package model;
 import chess.Chess;
 
 public class ChessBoard {
-	private Cell[][] board;
+	public Cell[][] board;
+	private Piece EnPassantEligible;
 	
 	public ChessBoard() {
 		board = new Cell[8][8];
@@ -34,14 +35,24 @@ public class ChessBoard {
 		initWhitePieces();	
 	}
 	
+	public Cell findCell(String location){
+		int coord[] = Chess.stringToCoordinants(location);
+		return board[coord[0]][coord[1]];
+	}
+	
 	//implement this method to find what type of piece is located in the origin.
 	public Piece findPiece(String origin) {
 		int coord[] = Chess.stringToCoordinants(origin);
 		return board[coord[0]][coord[1]].getPiece();
 	}
 	
-	public void clearBoard() {
-		
+	public void clearCell(String location) {
+		int coord[] = Chess.stringToCoordinants(location);
+		board[coord[0]][coord[1]].setPiece(null);	
+	}
+	
+	public void clearCell(int[] coord){
+		board[coord[0]][coord[1]].setPiece(null);
 	}
 	
 
@@ -106,13 +117,15 @@ public class ChessBoard {
 	}
 	
 	public boolean movePiece(String origin, String dest) {
-		return false;
-	}
+		int[] orgCoord = Chess.stringToCoordinants(origin);
+		int[] destCoord = Chess.stringToCoordinants(dest);
+		Piece temp = board[orgCoord[0]][orgCoord[1]].getPiece();
+		board[destCoord[0]][destCoord[1]].setPiece(temp);
+		board[destCoord[0]][destCoord[1]].getPiece().setLocation(dest);
+		board[orgCoord[0]][orgCoord[1]].setPiece(null);
+		return true;
 	
-	public boolean promotePawn(String destination) {
-		return false;
 	}
-	
 	
 	public void printBoard() {
 		
@@ -146,6 +159,34 @@ public class ChessBoard {
 			}
 			System.out.println();
 		}
+	}
+	
+	public void promotePawn(String destination, char newRole) {
+		if(newRole == 'R'){
+			char color = findCell(destination).getPiece().getColor();
+			findCell(destination).setPiece(new Rook(color, "R", destination));
+		}else if(newRole == 'N'){
+			char color = findCell(destination).getPiece().getColor();
+			findCell(destination).setPiece(new Knight(color, "N", destination));
+		}else if(newRole == 'B'){
+			char color = findCell(destination).getPiece().getColor();
+			findCell(destination).setPiece(new Bishop(color, "B", destination));
+		}else if(newRole == 'Q'){
+			char color = findCell(destination).getPiece().getColor();
+			findCell(destination).setPiece(new Queen(color, "Q", destination));
+		}
+	}
+	
+	public Piece getEnPassantEligible(){
+		return EnPassantEligible;
+	}
+	
+	public void setEnPassantEligible(Piece pawn){
+		EnPassantEligible = pawn;
+	}
+	
+	public void clearEnPassant(){
+		EnPassantEligible = null;
 	}
 	
 	/*

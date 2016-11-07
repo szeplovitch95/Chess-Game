@@ -10,12 +10,19 @@ public class Chess {
 		
 	}
 
+	public static int intFromCharInt(char in){
+		int temp = (int)(8-(in -48));
+		return temp;
+	}
+	
 	public static int intFromLetter(char in){
-		return (int)in - 97;
+		int temp = (int)(in - 97);
+		return temp;
 	}
 	
 	public static char letterFromInt(int in){
-		return (char)(in + 97);
+		char temp = (char)(in + 97);
+		return temp;
 	}
 	
 	public static String coordinatesToString(int row, int column){
