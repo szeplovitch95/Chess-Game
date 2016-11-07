@@ -323,6 +323,7 @@ public class ChessGame {
 
 	public void setWinner(Player winner) {
 		Winner = winner;
+		
 	}
 	
 	public void switchPlayer(){
