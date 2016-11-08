@@ -13,6 +13,7 @@ public class ChessGame {
 	private boolean gameOver;
 	private Player currentMove;
 	private Player Winner;
+
 	
 	public ChessGame() {}
 	
@@ -24,6 +25,7 @@ public class ChessGame {
 		this.gameOver = false;
 		
 		startPlay();
+
 	}
 	
 	public void startPlay(){
@@ -78,7 +80,6 @@ public class ChessGame {
 			
 			System.out.println();
 			switchPlayer();
-			
 			
 		}
 		
@@ -139,6 +140,7 @@ public class ChessGame {
 		}
 		return retVal;
 	}
+	
 	
 	public boolean processInput(String input, Player current){
 		

@@ -27,6 +27,10 @@ public class Pawn extends Piece {
 	public void setMoved(){
 		moved = true;
 	}
+	
+	public void setPromotion(String move){
+		
+	}
 
 	@Override
 	public boolean isMoveValid(String origin, String destination, ChessBoard Board) {

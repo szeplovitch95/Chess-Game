@@ -81,8 +81,9 @@ public class ChessBoard {
 				}
 				
 				if((i == 0 && j == 4)) {
-					board[i][j].setPiece(new King('b', "K", Chess.coordinatesToString(i, j)));
+					board[i][j].setPiece(new King('b', "K", Chess.coordinatesToString(i, j)));					
 				}
+
 			}
 		}
 	}

@@ -30,7 +30,7 @@ public abstract class Piece {
 	public String getLocation(){
 		return location;
 	}
-	
+
 	public void setLocation(String loc){
 		this.location = loc;
 	}
