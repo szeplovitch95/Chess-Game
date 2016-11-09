@@ -21,13 +21,12 @@ public class Rook extends Piece implements moveHelper{
 		int[] originMoves = Chess.stringToCoordinants(origin);
 		int[] destinationMoves = Chess.stringToCoordinants(destination);
 		
-		
-		if(Board.board[originMoves[0]][originMoves[1]].getPiece().getColor() ==
-						Board.board[destinationMoves[0]][destinationMoves[1]].getPiece().getColor())
-		{
-			return false;
+		if(Board.board[destinationMoves[0]][destinationMoves[1]].getPiece() != null){
+			if(Board.board[originMoves[0]][originMoves[1]].getPiece().getColor() ==
+						Board.board[destinationMoves[0]][destinationMoves[1]].getPiece().getColor()){
+				return false;
+			}
 		}
-		
 		
 		
 		return hasPiecesInbetween(origin, destination, Board.board);

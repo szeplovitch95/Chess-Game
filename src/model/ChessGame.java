@@ -77,6 +77,9 @@ public class ChessGame {
 					board.clearEnPassant();
 				}
 			}
+			if(getDraw() && (!move.equals("draw") && move.length() != 11)){
+				setDraw(false);
+			}
 			
 			System.out.println();
 			switchPlayer();
@@ -189,7 +192,7 @@ public class ChessGame {
 				board.movePiece(origin, dest);
 			}
 			
-			setDraw();
+			setDraw(true);
 			
 		}else if (input.length() == 7){
 			// player is looking for a promotion
@@ -303,8 +306,8 @@ public class ChessGame {
 		this.allMoves = allMoves;
 	}
 	
-	public void setDraw(){
-		draw = true;
+	public void setDraw(boolean bool){
+		draw = bool;
 	}
 	
 	public boolean getDraw(){
