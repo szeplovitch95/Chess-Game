@@ -8,6 +8,7 @@ public class King extends Piece {
 	
 	public King(char color, String role, String location) {
 		super(color, role, location);
+		isMoved = false;
 	}
 
 	public boolean isMoved() {
@@ -43,6 +44,8 @@ public class King extends Piece {
 		if((coordOg[0] == coordDt[0] && Math.abs(coordOg[1] - coordDt[1]) == 1)
 				|| (Math.abs(coordOg[0] - coordDt[0]) == 1 && coordOg[1] == coordDt[1])
 				|| (Math.abs(coordOg[0] - coordDt[0]) == 1 && Math.abs(coordOg[1] - coordDt[1]) == 1)){
+			
+			setMoved(true);
 			return true;
 		}else if(false){
 			// check for castling***
