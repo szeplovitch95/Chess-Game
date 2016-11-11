@@ -300,7 +300,6 @@ public class ChessGame {
 		// HOW TO SEE IF THIS MOVE IS PUTTING THE USER IN CHECK?
 		return true;
 	}
-	
 
 
 	/**
@@ -347,20 +346,6 @@ public class ChessGame {
 		this.blackPlayer = blackPlayer;
 	}
 
-	/**
-	 * @return
-	 */
-	public List<String> getAllMoves() {
-		return allMoves;
-	}
-
-	/**
-	 * @param allMoves
-	 */
-	public void setAllMoves(List<String> allMoves) {
-		this.allMoves = allMoves;
-	}
-	
 	/**
 	 * @param bool. Sets the whether or not a player is looking to draw
 	 */
@@ -413,13 +398,6 @@ public class ChessGame {
 		}else{
 			currentMove = whitePlayer;
 		}
-	}
-	
-	/**
-	 * @param move
-	 */
-	public void addMove(String move) {
-		//implement this method to add a move to the List of all  moves
 	}
 	
 	

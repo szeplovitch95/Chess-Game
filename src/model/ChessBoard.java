@@ -3,12 +3,18 @@ import chess.Chess;
 
 public class ChessBoard {
 	public Cell[][] 		board;
+	public int[]			whiteKingLocation;
+	public int[]			blackKingLocation;
 	private Piece 			EnPassantEligible;
 	private boolean 		castled;
 	
 	public ChessBoard() {
 		board = new Cell[8][8];
 		castled = false;
+		whiteKingLocation[0] = 7;
+		whiteKingLocation[1] = 4;
+		blackKingLocation[0] = 0;
+		blackKingLocation[1] = 4;
 		initBoard();
 	}
 	
@@ -160,17 +166,100 @@ public class ChessBoard {
 		board[destCoord[0]][destCoord[1]].setPiece(temp);
 		board[destCoord[0]][destCoord[1]].getPiece().setLocation(dest);
 		board[orgCoord[0]][orgCoord[1]].setPiece(null);
+		if(temp.getRole() == "K"){
+			// update global location
+			if(temp.getColor() == 'w'){
+				whiteKingLocation = destCoord;
+			}else{
+				blackKingLocation = destCoord;
+			}
+		}
 		return true;
 	
 	}
 	
+	/**
+	 * 
+	 * Method that moves a piece from origin to dest
+	 * @param orgCoord int[] of the initial location of the piece to be moved
+	 * @param destCoord int[] of the place that piece is going to
+	 * @return boolean
+	 */
 	public boolean movePiece(int[] orgCoord,int[] destCoord) {
 		Piece temp = board[orgCoord[0]][orgCoord[1]].getPiece();
 		board[destCoord[0]][destCoord[1]].setPiece(temp);
 		board[destCoord[0]][destCoord[1]].getPiece().setLocation(Chess.coordinatesToString(destCoord[0], destCoord[1]));
 		board[orgCoord[0]][orgCoord[1]].setPiece(null);
+		if(temp.getRole() == "K"){
+			// update global location
+			if(temp.getColor() == 'w'){
+				whiteKingLocation = destCoord;
+			}else{
+				blackKingLocation = destCoord;
+			}
+		}
 		return true;
 	
+	}
+	
+	
+	/**
+	 * Method that check if a move will result in a check for own team
+	 * 
+	 * @param movingPieceOrigin
+	 * @param movingPieceDest
+	 * @param kinglocation
+	 * @param playerColor
+	 * @return
+	 */
+	public boolean beforeMoveCheck(int[] movingPieceOrigin, int[] movingPieceDest, int[] kingLocation, char playerColor){
+		// temporarily move the piece from origin to dest
+		movePiece(movingPieceOrigin, movingPieceDest);
+		
+		String kingLoc = Chess.coordinatesToString(kingLocation[0], kingLocation[1]);
+		String pieceLoc;
+		// run through the board looking for pieces of the opposite color
+		// and check to see if (their location -> kings location) is a valid move;
+		for( int row = 0; row < 7; row++){
+			for( int col = 0; col < 7; col++){
+				if(board[row][col].getPiece() != null && board[row][col].getPiece().getColor() != playerColor){
+					Piece temp = board[row][col].getPiece();
+					pieceLoc = Chess.coordinatesToString(row, col);
+					if(temp.isMoveValid(pieceLoc, kingLoc , this)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Method that tells whether a move just made has put the opposing team in check
+	 * 
+	 * @param kingLocation
+	 * @param playerColor
+	 * @return
+	 */
+	public boolean putInCheck(int[] kingLocation, char playerColor){
+		
+		String kingLoc = Chess.coordinatesToString(kingLocation[0], kingLocation[1]);
+		String pieceLoc;
+		// run through the board looking for pieces of the opposite color
+		// and check to see if (their location -> kings location) is a valid move;
+		for( int row = 0; row < 7; row++){
+			for( int col = 0; col < 7; col++){
+				if(board[row][col].getPiece() != null && board[row][col].getPiece().getColor() != playerColor){
+					Piece temp = board[row][col].getPiece();
+					pieceLoc = Chess.coordinatesToString(row, col);
+					if(temp.isMoveValid(pieceLoc, kingLoc, this)){
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -253,22 +342,18 @@ public class ChessBoard {
 		EnPassantEligible = null;
 	}
 	
+	/**
+	 * @param in boolean. Sets variable to whether or not a castling just occurred
+	 */
 	public void setCastled(boolean in){
 		castled = in;
 	}
 	
+	/**
+	 * @return boolean. Tells the main thread whether or not a castling just occurred
+	 */
 	public boolean getCastled(){
 		return castled;
 	}
 	
-	/*
-	 * Checks user's input ('e5 e6') to make sure it is a valid input and located on the board. 
-	 * For Example: 'z7 y4' is invalid and the program should print an error to the user 
-	 * On success: method should call the findPiece method to find the type of the piece and then 
-	 * call the appropriate piece's isMoveValid method to verify the move is valid. 
-	 */
-	
-	public boolean validateMove(String origin, String destination) {
-		return false;
-	}
 }

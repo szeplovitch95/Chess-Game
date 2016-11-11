@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * @author Shachar Zeplovitch
  * @author Christopher McDonough
@@ -8,13 +10,13 @@ public abstract class Piece {
 	private char color;
 	private String role;
 	private String location;
-	private Piece[] attacking;
+	private ArrayList<Cell> attacking;
 
 	public Piece(char color, String role, String location) {
 		this.color = color; 
 		this.role = role; 
 		this.location = location;
-		this.attacking = new Piece[8];
+		this.attacking = new ArrayList<Cell>();
 	}
 
 	/**
