@@ -1,6 +1,10 @@
 package model;
 import chess.Chess;
 
+/**
+ * @author Shachar Zeplovitch
+ * @author Christopher McDonough
+ */
 public class Bishop extends Piece {
 
 	public Bishop(char color, String role, String location) {
@@ -29,6 +33,14 @@ public class Bishop extends Piece {
 		return hasPiecesInBetween(origin, destination, Board);
 	}
 	
+	/**
+	 * @param origin String
+	 * @param destination String
+	 * @param Board ChessBoard
+	 * @return boolean. This checks the board to see if there are any pieces between the origin piece 
+	 * and the destination piece. It will return true if there's no piece in between and will return false 
+	 * otherwise.
+	 */
 	public boolean hasPiecesInBetween(String origin, String destination, ChessBoard Board){
 		int[] originMoves = Chess.stringToCoordinants(origin);
 		int[] destinationMoves = Chess.stringToCoordinants(destination);

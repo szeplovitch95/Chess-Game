@@ -2,15 +2,20 @@ package model;
 import chess.Chess;
 
 public class ChessBoard {
-	public Cell[][] board;
-	private Piece EnPassantEligible;
+	public Cell[][] 		board;
+	private Piece 			EnPassantEligible;
+	private boolean 		castled;
 	
 	public ChessBoard() {
 		board = new Cell[8][8];
+		castled = false;
 		initBoard();
 	}
 	
 	
+	/**
+	 * Initializes the board
+	 */
 	private void initBoard() {
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
@@ -36,27 +41,47 @@ public class ChessBoard {
 		initWhitePieces();	
 	}
 	
+	/**
+	 * @param location. String of the coordinates on the board
+	 * @return Cell. the cell at the given coordinates
+	 */
 	public Cell findCell(String location){
 		int coord[] = Chess.stringToCoordinants(location);
 		return board[coord[0]][coord[1]];
 	}
 	
-	//implement this method to find what type of piece is located in the origin.
+	/**
+	 * @param origin String of the location of piece were looking for
+	 * @return the piece at that location. null if there is none
+	 */
 	public Piece findPiece(String origin) {
 		int coord[] = Chess.stringToCoordinants(origin);
 		return board[coord[0]][coord[1]].getPiece();
 	}
 	
+	/**
+	 * 
+	 * method that clears a cell when a piece gets taken
+	 * @param location. String of the location we want to clear
+	 */
 	public void clearCell(String location) {
 		int coord[] = Chess.stringToCoordinants(location);
 		board[coord[0]][coord[1]].setPiece(null);	
 	}
 	
+	/**
+	 * 
+	 * method that clears a cell when a piece gets taken
+	 * @param coord. int[][] coordinates of the location
+	 */
 	public void clearCell(int[] coord){
 		board[coord[0]][coord[1]].setPiece(null);
 	}
 	
 
+	/**
+	 * initializes all the black piece at the start of the game
+	 */
 	private void initBlackPieces() {
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
@@ -88,6 +113,9 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * initializes all the white pieces at the start of the game
+	 */
 	private void initWhitePieces() {
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board.length; j++) {
@@ -118,6 +146,13 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * 
+	 * Method that moves a piece from origin to dest
+	 * @param origin String of the initial location of the piece to be moved
+	 * @param dest String of the place that piece is going to
+	 * @return boolean 
+	 */
 	public boolean movePiece(String origin, String dest) {
 		int[] orgCoord = Chess.stringToCoordinants(origin);
 		int[] destCoord = Chess.stringToCoordinants(dest);
@@ -129,6 +164,18 @@ public class ChessBoard {
 	
 	}
 	
+	public boolean movePiece(int[] orgCoord,int[] destCoord) {
+		Piece temp = board[orgCoord[0]][orgCoord[1]].getPiece();
+		board[destCoord[0]][destCoord[1]].setPiece(temp);
+		board[destCoord[0]][destCoord[1]].getPiece().setLocation(Chess.coordinatesToString(destCoord[0], destCoord[1]));
+		board[orgCoord[0]][orgCoord[1]].setPiece(null);
+		return true;
+	
+	}
+	
+	/**
+	 * Method that prints the board to the console after every valid move
+	 */
 	public void printBoard() {
 		
 		for(int i = 0; i < board.length; i++) {
@@ -163,6 +210,12 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * 
+	 * Method that promotes a pawn
+	 * @param destination String of the location of the pawn
+	 * @param newRole char the new role that the pawn will be promoted to
+	 */
 	public void promotePawn(String destination, char newRole) {
 		if(newRole == 'R'){
 			char color = findCell(destination).getPiece().getColor();
@@ -179,16 +232,33 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * @return Piece. Returns which piece on the board is en passant eligible
+	 */
 	public Piece getEnPassantEligible(){
 		return EnPassantEligible;
 	}
 	
+	/**
+	 * @param pawn Piece that will be en passant eligible
+	 */
 	public void setEnPassantEligible(Piece pawn){
 		EnPassantEligible = pawn;
 	}
 	
+	/**
+	 * after the next move, all pieces become ineligible to en passant
+	 */
 	public void clearEnPassant(){
 		EnPassantEligible = null;
+	}
+	
+	public void setCastled(boolean in){
+		castled = in;
+	}
+	
+	public boolean getCastled(){
+		return castled;
 	}
 	
 	/*

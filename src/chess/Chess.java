@@ -10,26 +10,57 @@ public class Chess {
 		
 	}
 
+	/**
+	 * 
+	 * Helper method for array to input conversion
+	 * @param in
+	 * @return int that represents the char  
+	 */
 	public static int intFromCharInt(char in){
 		int temp = (int)(8-(in -48));
 		return temp;
 	}
 	
+	/**
+	 * 
+	 * Helper method for array to input conversion
+	 * @param in
+	 * @return int that represents the char 
+	 */
 	public static int intFromLetter(char in){
 		int temp = (int)(in - 97);
 		return temp;
 	}
 	
+	/**
+	 * 
+	 * Helper method for array to input conversion
+	 * @param in
+	 * @returnchar that represents the int
+	 */
 	public static char letterFromInt(int in){
 		char temp = (char)(in + 97);
 		return temp;
 	}
 	
+	/**
+	 * 
+	 * Helper method for array to input conversion
+	 * @param row
+	 * @param column
+	 * @return String. user input friendly
+	 */
 	public static String coordinatesToString(int row, int column){
 		char col = letterFromInt(column);
 		String ret = "" + col + (8 - row);
 		return ret;
 	}
+	/**
+	 * 
+	 * Helper method for array to input conversion
+	 * @param move
+	 * @return int[] with coordinates of move
+	 */
 	public static int[] stringToCoordinants(String move){
 		int ret[] = new int[2];
 		int i = move.charAt(1);

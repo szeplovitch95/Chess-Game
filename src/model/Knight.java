@@ -2,6 +2,10 @@ package model;
 
 import chess.Chess;
 
+/**
+ * @author Shachar Zeplovitch
+ * @author Christopher McDonough
+ */
 public class Knight extends Piece {
 	
 	public Knight(char color, String role, String location) {

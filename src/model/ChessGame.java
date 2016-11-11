@@ -5,29 +5,34 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ChessGame {
-	private ChessBoard board; 
-	private Player whitePlayer; 
-	private Player blackPlayer;
-	private List<String> allMoves;
-	private boolean draw;
-	private boolean gameOver;
-	private Player currentMove;
-	private Player Winner;
+	private ChessBoard 		board; 
+	private Player 			whitePlayer; 
+	private Player 			blackPlayer;
+	private List<String> 	allMoves;
+	private boolean 		draw;
+	private boolean 		gameOver;
+	private Player 			currentMove;
+	private Player 			Winner;
 
 	
 	public ChessGame() {}
 	
 	public ChessGame(ChessBoard board, Player whitePlayer, Player blackPlayer) {
-		this.board = board; 
+		this.board		 = board; 
 		this.whitePlayer = whitePlayer; 
 		this.blackPlayer = blackPlayer; 
-		this.draw = false;
-		this.gameOver = false;
+		this.draw		 = false;
+		this.gameOver	 = false;
 		
 		startPlay();
 
 	}
 	
+	/**
+	 * 
+	 * Method that keeps the game going with user inputs
+	 * 
+	 */
 	public void startPlay(){
 		boolean correctFormat, validMove;
 		currentMove = whitePlayer;
@@ -90,6 +95,13 @@ public class ChessGame {
 		
 	}
 	
+	/**
+	 * 
+	 * Method that takes in input from the user and checks the formatting of the string.
+	 * 
+	 * @param move String of raw input data from the user
+	 * @return boolean whether or not the formatting of the input was valid or not
+	 */
 	public boolean checkFormat(String move){
 		
 		boolean retVal = true;
@@ -145,6 +157,15 @@ public class ChessGame {
 	}
 	
 	
+	/**
+	 * 
+	 * Method that takes in the user's input and makes sure the move
+	 * is possible given the current condition of the game 
+	 * 
+	 * @param input String. Raw input data from the user
+	 * @param current Player. The player whose turn it is
+	 * @return Boolean deciding whether or not the move is valid or not
+	 */
 	public boolean processInput(String input, Player current){
 		
 		String origin = "";
@@ -189,7 +210,11 @@ public class ChessGame {
 				return false;
 			}else{
 				// valid move
-				board.movePiece(origin, dest);
+				//see if previous move was a castling
+				if(!board.getCastled()){
+					board.movePiece(origin, dest);
+				}
+				board.setCastled(false);
 			}
 			
 			setDraw(true);
@@ -261,7 +286,11 @@ public class ChessGame {
 				
 			}else{
 				// valid move
-				board.movePiece(origin, dest);
+				//see if previous move was a castling
+				if(!board.getCastled()){
+					board.movePiece(origin, dest);
+				}
+				board.setCastled(false);
 			}
 			
 		}
@@ -274,63 +303,110 @@ public class ChessGame {
 	
 
 
+	/**
+	 * @return ChessBoard. The board that the current game is being played on
+	 */
 	public ChessBoard getBoard() {
 		return board;
 	}
 
+	/**
+	 * 
+	 * sets the current ChessBoard to the param
+	 * @param board
+	 */
 	public void setBoard(ChessBoard board) {
 		this.board = board;
 	}
 
+	/**
+	 * @return Player. the white player
+	 */
 	public Player getWhitePlayer() {
 		return whitePlayer;
 	}
 
+	/**
+	 * @param whitePlayer. Sets the whiteplayer to the param
+	 */
 	public void setWhitePlayer(Player whitePlayer) {
 		this.whitePlayer = whitePlayer;
 	}
 
+	/**
+	 * @return Player. the black player
+	 */
 	public Player getBlackPlayer() {
 		return blackPlayer;
 	}
 
+	/**
+	 * @param blackPlayer. Sets the blackplayer to the param
+	 */
 	public void setBlackPlayer(Player blackPlayer) {
 		this.blackPlayer = blackPlayer;
 	}
 
+	/**
+	 * @return
+	 */
 	public List<String> getAllMoves() {
 		return allMoves;
 	}
 
+	/**
+	 * @param allMoves
+	 */
 	public void setAllMoves(List<String> allMoves) {
 		this.allMoves = allMoves;
 	}
 	
+	/**
+	 * @param bool. Sets the whether or not a player is looking to draw
+	 */
 	public void setDraw(boolean bool){
 		draw = bool;
 	}
 	
+	/**
+	 * @return the current status of draw
+	 */
 	public boolean getDraw(){
 		return draw;
 	}
 	
+	/**
+	 * sets whether the game should be ended
+	 */
 	public void setGameOver(){
 		gameOver = true;
 	}
 	
+	/**
+	 * @return whether or not the game should be over
+	 */
 	public boolean getGameOver(){
 		return gameOver;
 	}
 
+	/**
+	 * @return the player that wins
+	 */
 	public Player getWinner() {
 		return Winner;
 	}
 
+	/**
+	 * @param winner. sets the winning player
+	 */
 	public void setWinner(Player winner) {
 		Winner = winner;
 		
 	}
 	
+	/**
+	 * switched the player after ecery valid move
+	 */
 	public void switchPlayer(){
 		if(currentMove == whitePlayer){
 			currentMove = blackPlayer;
@@ -339,6 +415,9 @@ public class ChessGame {
 		}
 	}
 	
+	/**
+	 * @param move
+	 */
 	public void addMove(String move) {
 		//implement this method to add a move to the List of all  moves
 	}

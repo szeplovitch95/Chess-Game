@@ -1,6 +1,10 @@
 package model;
 import chess.Chess;
 
+/**
+ * @author Shachar Zeplovitch
+ * @author Christopher McDonough
+ */
 public class Rook extends Piece{
 	private boolean isMoved;
 	
@@ -9,10 +13,16 @@ public class Rook extends Piece{
 		isMoved = false;
 	}
 	
+	/**
+	 * @return boolean. This returns the isMoved variable.
+	 */
 	public boolean isMoved() {
 		return isMoved;
 	}
 
+	/**
+	 * @param isMoved boolean. Sets the isMoved variable to the param value.
+	 */
 	public void setMoved(boolean isMoved) {
 		this.isMoved = isMoved;
 	}
@@ -44,13 +54,22 @@ public class Rook extends Piece{
 	}
 	
 
+	/**
+	 * @param origin String
+	 * @param destination String
+	 * @param Board ChessBoard
+	 * @return boolean. This checks the board to see if there are any pieces between the origin piece 
+	 * and the destination piece. It will return true if there's no piece in between and will return false 
+	 * otherwise.
+	 */
 	public boolean hasPiecesInBetween(String origin, String destination, ChessBoard Board){
-		
 		int[] originMoves = Chess.stringToCoordinants(origin);
 		int[] destinationMoves = Chess.stringToCoordinants(destination);
 		
+		// vertical movement
 		if(originMoves[1] == destinationMoves[1] && originMoves[0] != destinationMoves[0]) {
-			//upward movement
+			
+			// down
 			if(originMoves[0] < destinationMoves[0]) {
 				for(int i = originMoves[0] + 1; i < destinationMoves[0]; i++) {
 					if(Board.board[i][originMoves[1]].getPiece() != null) {
@@ -58,8 +77,7 @@ public class Rook extends Piece{
 					}
 				}
 			}
-			
-			//downward movement
+			// up
 			if(originMoves[0] > destinationMoves[0]) {
 				for(int i = originMoves[0] - 1; i > destinationMoves[0]; i--) {
 					if(Board.board[i][originMoves[1]].getPiece() != null) {
@@ -68,26 +86,27 @@ public class Rook extends Piece{
 				}
 			}
 		}
-		
+		// horizontal movement
 		if(originMoves[1] != destinationMoves[1] && originMoves[0] == destinationMoves[0]) {
+			
+			// right
 			if(originMoves[1] < destinationMoves[1]) {
-				for(int i = originMoves[1] + 2; i < destinationMoves[0]; i++) {
-					if(Board.board[i][originMoves[0]].getPiece() != null) {
+				for(int i = originMoves[1] + 1; i < destinationMoves[1]; i++) {
+					if(Board.board[originMoves[0]][i].getPiece() != null) {
 						return false;
 					}
 				}
 			}
-			
+			// left
 			if(originMoves[1] > destinationMoves[1]) {
-				for(int i = originMoves[1]; i > destinationMoves[0]; i--) {
-					if(Board.board[i][originMoves[0]].getPiece() != null) {
+				for(int i = originMoves[1] - 1; i > destinationMoves[1]; i--) {
+					if(Board.board[originMoves[0]][i].getPiece() != null) {
 						return false;
 					}
 				}
 			}
 		}
-		return true;  
 		
+		return true;  
 	}
-	
 }

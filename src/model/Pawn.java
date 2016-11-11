@@ -2,6 +2,10 @@ package model;
 
 import chess.Chess;
 
+/**
+ * @author Shachar Zeplovitch
+ * @author Christopher McDonough
+ */
 public class Pawn extends Piece {
 	private boolean enPassant;
 	private boolean moved;
@@ -12,25 +16,41 @@ public class Pawn extends Piece {
 		this.enPassant = false;
 	}
 	
+	/**
+	 * @return boolean. This returns the enPassant variable.
+	 */
 	public boolean isEnPassant() {
 		return enPassant;
 	}
 	
+	/**
+	 * @param in boolean. Sets the enPassant variable to the param value.
+	 */
 	public void setEnPassant(boolean in) {
 		this.enPassant = in;
 	}
 	
+	/**
+	 * @return boolean. This returns the moved variable.
+	 */
 	public boolean hasMoved(){
 		return moved;
 	}
 	
+	/**
+	 * Sets the moved variable to true.
+	 */
 	public void setMoved(){
 		moved = true;
 	}
 	
+	/**
+	 * @param move String
+	 */
 	public void setPromotion(String move){
 		
 	}
+	
 
 	@Override
 	public boolean isMoveValid(String origin, String destination, ChessBoard Board) {
