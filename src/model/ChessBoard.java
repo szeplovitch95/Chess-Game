@@ -208,9 +208,9 @@ public class ChessBoard {
 	/**
 	 * Method that check if a move will result in a check for own team
 	 * 
-	 * @param movingPieceOrigin
-	 * @param movingPieceDest
-	 * @param kinglocation
+	 * @param ogLoc
+	 * @param dtLoc
+	 * @param kingLocation
 	 * @param playerColor
 	 * @return
 	 */

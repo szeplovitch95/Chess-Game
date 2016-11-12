@@ -392,14 +392,14 @@ public class ChessGame {
 							if(temp.isMoveValid(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board)){
 								// check which team
 								if(currentMove.getPlayerColor() =='w'){
-									if(!board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.whiteKingLocation, 'b')){
+									if(board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.blackKingLocation, 'b')){
 										// not in check mate
-										return false;
+										return true;
 									}
 								}else{
-									if(!board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.blackKingLocation, 'w')){
+									if(board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.whiteKingLocation, 'w')){
 										// not in check mate
-										return false;
+										return true;
 									}
 								}
 								
@@ -413,7 +413,7 @@ public class ChessGame {
 		
 		// went through the whole list and no move can get the king out of check
 		// it is in check mate
-		return true;
+		return false;
 		
 	}
 

@@ -36,7 +36,7 @@ public class Chess {
 	 * 
 	 * Helper method for array to input conversion
 	 * @param in
-	 * @returnchar that represents the int
+	 * @return char that represents the int
 	 */
 	public static char letterFromInt(int in){
 		char temp = (char)(in + 97);
