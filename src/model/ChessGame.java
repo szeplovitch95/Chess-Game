@@ -1,14 +1,12 @@
 package model;
-import chess.Chess;
 
-import java.util.List;
+import chess.Chess;
 import java.util.Scanner;
 
 public class ChessGame {
 	private ChessBoard 		board; 
 	private Player 			whitePlayer; 
 	private Player 			blackPlayer;
-	private List<String> 	allMoves;
 	private boolean 		draw;
 	private boolean 		gameOver;
 	private boolean			inCheck;
@@ -451,7 +449,7 @@ public class ChessGame {
 	}
 	
 	/**
-	 * switched the player after ecery valid move
+	 * switched the player after every valid move
 	 */
 	public void switchPlayer(){
 		if(currentMove == whitePlayer){

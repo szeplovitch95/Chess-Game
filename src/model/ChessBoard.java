@@ -281,6 +281,11 @@ public class ChessBoard {
 		return false;
 	}
 	
+	/**
+	 * Makes the moves to castle a king
+	 * @param origin String. where the king is initially
+	 * @param dest String. where the king will be when done castling
+	 */
 	public void castleKing(String origin, String dest){
 		int[] coordOg = Chess.stringToCoordinants(origin);
 		int[] coordDt = Chess.stringToCoordinants(dest);
@@ -305,6 +310,12 @@ public class ChessBoard {
 		
 	}
 	
+	/**
+	 * 
+	 * Method used in the beforeMoveCheck method. Puts the king and rook back to their original
+	 * positions after castling
+	 * @param kingsLoc
+	 */
 	public void undoCastling(int[] kingsLoc){
 		// find out where the king is and put the rook and king back into their respectful locations
 		if(kingsLoc[0] == 0 && kingsLoc[1] == 2){

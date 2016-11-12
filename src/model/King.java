@@ -79,6 +79,15 @@ public class King extends Piece {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * Method only used when castling. Determines if their are pieces
+	 * blocking a king to castle
+	 * @param originMoves int[]. Where the path starts
+	 * @param destinationMoves int[]. Where the path ends
+	 * @param Board ChessBoard. The current board being played on
+	 * @return boolean. Whether or not there are pieces in the path
+	 */
 	public boolean inBetween(int[] originMoves, int[] destinationMoves, ChessBoard Board){
 		// right
 		if(originMoves[1] < destinationMoves[1]) {
