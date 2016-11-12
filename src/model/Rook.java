@@ -6,25 +6,9 @@ import chess.Chess;
  * @author Christopher McDonough
  */
 public class Rook extends Piece{
-	private boolean isMoved;
 	
 	public Rook(char color, String role, String location) {
 		super(color, role, location);
-		isMoved = false;
-	}
-	
-	/**
-	 * @return boolean. This returns the isMoved variable.
-	 */
-	public boolean isMoved() {
-		return isMoved;
-	}
-
-	/**
-	 * @param isMoved boolean. Sets the isMoved variable to the param value.
-	 */
-	public void setMoved(boolean isMoved) {
-		this.isMoved = isMoved;
 	}
 
 	@Override

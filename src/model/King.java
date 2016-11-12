@@ -6,29 +6,12 @@ import chess.Chess;
  * @author Shachar Zeplovitch
  * @author Christopher McDonough
  */
-public class King extends Piece {
-	private boolean isMoved; 
+public class King extends Piece { 
 	private boolean isInCheck;
 	
 	public King(char color, String role, String location) {
 		super(color, role, location);
-		isMoved = false;
 	}
-
-	/**
-	 * @return boolean. This returns the isMoved variable.
-	 */
-	public boolean isMoved() {
-		return isMoved;
-	}
-
-	/**
-	 * @param isMoved boolean. This sets the isMoved variable to the param value.
-	 */
-	public void setMoved(boolean isMoved) {
-		this.isMoved = isMoved;
-	}
-
 	/**
 	 * @return boolean. Returns the isInCheck variable.
 	 */
@@ -65,7 +48,6 @@ public class King extends Piece {
 			return true;
 			
 		// check for castling
-		// TODO still need to see if king is in check or will be in check after this move
 		}else if(((destination.equals("c1") || destination.equals("g1")) && this.getColor() == 'w') 
 				|| ((destination.equals("c8") || destination.equals("g8")) && this.getColor() == 'b')){
 			if(destination.charAt(0) == 'c' 
@@ -74,14 +56,8 @@ public class King extends Piece {
 				
 				Rook temp = (Rook)Board.board[Chess.intFromCharInt(destination.charAt(1))][0].getPiece();
 				if(this.isMoved == false && temp.isMoved() == false){
-					if(inBetween(coordOg, coordDt, Board)){
-						// move the pieces
-						// move king
-						Board.movePiece(coordOg, coordDt);
-						// move rook
-						int[] tempOg = {Chess.intFromCharInt(destination.charAt(1)), Chess.intFromLetter(destination.charAt(0)) -2};
-						int[] tempDt = {coordDt[0], coordDt[1] +1};
-						Board.movePiece( tempOg, tempDt);
+					if(inBetween(coordOg, coordDt, Board) && !isInCheck){
+						// set the flag
 						Board.setCastled(true);
 						return true;
 					}
@@ -93,13 +69,7 @@ public class King extends Piece {
 				Rook temp = (Rook)Board.board[Chess.intFromCharInt(destination.charAt(1))][0].getPiece();
 				if(this.isMoved == false && temp.isMoved() == false){
 					if(inBetween(coordOg, coordDt, Board)){
-						// move the pieces
-						// move king
-						Board.movePiece(coordOg, coordDt);
-						// move rook
-						int[] tempOg = {Chess.intFromCharInt(destination.charAt(1)), Chess.intFromLetter(destination.charAt(0)) +1};
-						int[] tempDt = {coordDt[0], coordDt[1] -1};
-						Board.movePiece( tempOg, tempDt);
+						// set the flag
 						Board.setCastled(true);
 						return true;
 					}

@@ -10,13 +10,13 @@ public abstract class Piece {
 	private char color;
 	private String role;
 	private String location;
-	private ArrayList<Cell> attacking;
+	public boolean isMoved;
 
 	public Piece(char color, String role, String location) {
 		this.color = color; 
 		this.role = role; 
 		this.location = location;
-		this.attacking = new ArrayList<Cell>();
+		this.isMoved = false;
 	}
 
 	/**
@@ -59,6 +59,20 @@ public abstract class Piece {
 	 */
 	public void setLocation(String loc){
 		this.location = loc;
+	}
+	
+	/**
+	 * @return boolean. This returns the isMoved variable.
+	 */
+	public boolean isMoved() {
+		return isMoved;
+	}
+
+	/**
+	 * @param isMoved boolean. Sets the isMoved variable to the param value.
+	 */
+	public void setMoved(boolean isMoved) {
+		this.isMoved = isMoved;
 	}
 	
 	/**

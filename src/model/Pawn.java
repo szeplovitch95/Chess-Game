@@ -8,11 +8,10 @@ import chess.Chess;
  */
 public class Pawn extends Piece {
 	private boolean enPassant;
-	private boolean moved;
 	
 	public Pawn(char color, String role, String location) {
 		super(color, role, location);
-		this.moved = false;
+		this.isMoved = false;
 		this.enPassant = false;
 	}
 	
@@ -28,20 +27,6 @@ public class Pawn extends Piece {
 	 */
 	public void setEnPassant(boolean in) {
 		this.enPassant = in;
-	}
-	
-	/**
-	 * @return boolean. This returns the moved variable.
-	 */
-	public boolean hasMoved(){
-		return moved;
-	}
-	
-	/**
-	 * Sets the moved variable to true.
-	 */
-	public void setMoved(){
-		moved = true;
 	}
 	
 	/**
@@ -83,7 +68,7 @@ public class Pawn extends Piece {
 					return false;
 				}
 			}else if(spaces == 2){
-				if(hasMoved()){
+				if(isMoved()){
 					return false;
 				}else if(Board.findPiece(destination) != null){
 					return false;
@@ -134,12 +119,12 @@ public class Pawn extends Piece {
 			// user inputed something not valid
 			return false;
 		}
-		if(isEnPassant() && hasMoved()){
+		if(isEnPassant() && isMoved()){
 			// no longer en passant ready
 			setEnPassant(false);
 		}
-		if(!hasMoved()){
-			setMoved();
+		if(!isMoved()){
+			setMoved(true);
 		}
 		return true;
 	}

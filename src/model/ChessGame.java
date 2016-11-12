@@ -11,6 +11,7 @@ public class ChessGame {
 	private List<String> 	allMoves;
 	private boolean 		draw;
 	private boolean 		gameOver;
+	private boolean			inCheck;
 	private Player 			currentMove;
 	private Player 			Winner;
 
@@ -23,6 +24,7 @@ public class ChessGame {
 		this.blackPlayer = blackPlayer; 
 		this.draw		 = false;
 		this.gameOver	 = false;
+		this.inCheck	 = false;
 		
 		startPlay();
 
@@ -44,6 +46,10 @@ public class ChessGame {
 			//Print the board
 			board.printBoard();
 			System.out.println();
+			
+			if(inCheck){
+				System.out.println("Check");
+			}
 			
 			// Print the prompt
 			if(currentMove.getPlayerColor() == 'w'){
@@ -82,6 +88,27 @@ public class ChessGame {
 					board.clearEnPassant();
 				}
 			}
+			
+			if(currentMove.getPlayerColor() == 'w' && board.putInCheck(board.blackKingLocation, 'b')){
+				King temp = (King)board.findPiece(Chess.coordinatesToString(board.blackKingLocation[0], board.blackKingLocation[1]));
+				temp.setInCheck(true);
+				inCheck = true;
+			}else if(board.putInCheck(board.whiteKingLocation, 'w')){
+				King temp = (King)board.findPiece(Chess.coordinatesToString(board.whiteKingLocation[0], board.whiteKingLocation[1]));
+				temp.setInCheck(true);
+				inCheck = true;
+			}else{
+				if(currentMove.getPlayerColor() == 'w'){
+					King temp = (King)board.findPiece(Chess.coordinatesToString(board.blackKingLocation[0], board.blackKingLocation[1]));
+					temp.setInCheck(false);
+				}else{
+					King temp = (King)board.findPiece(Chess.coordinatesToString(board.whiteKingLocation[0], board.whiteKingLocation[1]));
+					temp.setInCheck(false);
+				}
+				
+				inCheck = false;
+			}
+			
 			if(getDraw() && (!move.equals("draw") && move.length() != 11)){
 				setDraw(false);
 			}
@@ -208,10 +235,22 @@ public class ChessGame {
 				// not a valid move
 				System.out.println("Illegal move, try again.");
 				return false;
+			}else if( currentMove.getPlayerColor() == 'w' && board.beforeMoveCheck(origin, dest, board.whiteKingLocation, 'w')){
+				// move puts the current player in check
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(currentMove.getPlayerColor() == 'b' && board.beforeMoveCheck(origin, dest, board.blackKingLocation, 'b')){
+				// move puts the current player in check
+				System.out.println("Illegal move, try again.");
+				return false;
+				
 			}else{
 				// valid move
 				//see if previous move was a castling
-				if(!board.getCastled()){
+				if(board.getCastled()){
+					board.castleKing(origin, dest);
+				}else{
 					board.movePiece(origin, dest);
 				}
 				board.setCastled(false);
@@ -243,6 +282,16 @@ public class ChessGame {
 			
 			}else if(!board.findPiece(origin).isMoveValid(origin, dest, board)){
 				// not a valid move
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if( currentMove.getPlayerColor() == 'w' && board.beforeMoveCheck(origin, dest, board.whiteKingLocation, 'w')){
+				// move puts the current player in check
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(currentMove.getPlayerColor() == 'b' && board.beforeMoveCheck(origin, dest, board.blackKingLocation, 'b')){
+				// move puts the current player in check
 				System.out.println("Illegal move, try again.");
 				return false;
 				
@@ -284,10 +333,22 @@ public class ChessGame {
 				System.out.println("Illegal move, try again.");
 				return false;
 				
+			}else if( currentMove.getPlayerColor() == 'w' && board.beforeMoveCheck(origin, dest, board.whiteKingLocation, 'w')){
+				// move puts the current player in check
+				System.out.println("Illegal move, try again.");
+				return false;
+				
+			}else if(currentMove.getPlayerColor() == 'b' && board.beforeMoveCheck(origin, dest, board.blackKingLocation, 'b')){
+				// move puts the current player in check
+				System.out.println("Illegal move, try again.");
+				return false;
+				
 			}else{
 				// valid move
 				//see if previous move was a castling
-				if(!board.getCastled()){
+				if(board.getCastled()){
+					board.castleKing(origin, dest);
+				}else{
 					board.movePiece(origin, dest);
 				}
 				board.setCastled(false);

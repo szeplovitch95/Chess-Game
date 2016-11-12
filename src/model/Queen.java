@@ -128,7 +128,7 @@ public class Queen extends Piece {
 			// up right
 			if (fileDif > 0 && rankDif < 0) {
 				r = originMoves[0] - 1;
-				for (int i = originMoves[1]; i > destinationMoves[1]; i++) {
+				for (int i = originMoves[1] + 1; i < destinationMoves[1]; i++) {
 					if (Board.board[r][i].getPiece() != null) {
 						return false;							
 					}
@@ -139,7 +139,7 @@ public class Queen extends Piece {
 			// down left
 			if (fileDif < 0 && rankDif > 0) {
 				r = originMoves[0]  + 1;
-				for (int i = originMoves[1] - 1; i < destinationMoves[1]; i--) {
+				for (int i = originMoves[1] - 1; i > destinationMoves[1]; i--) {
 					if (Board.board[r][i].getPiece() != null) {
 						return false;
 					}

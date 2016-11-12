@@ -11,8 +11,10 @@ public class ChessBoard {
 	public ChessBoard() {
 		board = new Cell[8][8];
 		castled = false;
+		whiteKingLocation = new int[2];
 		whiteKingLocation[0] = 7;
 		whiteKingLocation[1] = 4;
+		blackKingLocation = new int[2];
 		blackKingLocation[0] = 0;
 		blackKingLocation[1] = 4;
 		initBoard();
@@ -212,24 +214,41 @@ public class ChessBoard {
 	 * @param playerColor
 	 * @return
 	 */
-	public boolean beforeMoveCheck(int[] movingPieceOrigin, int[] movingPieceDest, int[] kingLocation, char playerColor){
+	public boolean beforeMoveCheck(String ogLoc, String dtLoc, int[] kingLocation, char playerColor){
 		// temporarily move the piece from origin to dest
-		movePiece(movingPieceOrigin, movingPieceDest);
-		
+		int[] movingPieceOrigin = Chess.stringToCoordinants(ogLoc);
+		int[] movingPieceDest = Chess.stringToCoordinants(dtLoc);
+		if(castled){
+			castleKing(ogLoc, dtLoc);
+		}else{
+			movePiece(movingPieceOrigin, movingPieceDest);
+		}
 		String kingLoc = Chess.coordinatesToString(kingLocation[0], kingLocation[1]);
 		String pieceLoc;
 		// run through the board looking for pieces of the opposite color
 		// and check to see if (their location -> kings location) is a valid move;
-		for( int row = 0; row < 7; row++){
-			for( int col = 0; col < 7; col++){
+		for( int row = 0; row <= 7; row++){
+			for( int col = 0; col <= 7; col++){
 				if(board[row][col].getPiece() != null && board[row][col].getPiece().getColor() != playerColor){
 					Piece temp = board[row][col].getPiece();
 					pieceLoc = Chess.coordinatesToString(row, col);
 					if(temp.isMoveValid(pieceLoc, kingLoc , this)){
+						// move piece back
+						if(this.castled){
+							undoCastling(movingPieceDest);
+							return true;
+						}
+						movePiece(movingPieceDest, movingPieceOrigin);
 						return true;
 					}
 				}
 			}
+		}
+		// move piece back
+		if(this.castled){
+			undoCastling(movingPieceDest);
+		}else{
+			movePiece(movingPieceDest, movingPieceOrigin);
 		}
 		return false;
 	}
@@ -247,8 +266,8 @@ public class ChessBoard {
 		String pieceLoc;
 		// run through the board looking for pieces of the opposite color
 		// and check to see if (their location -> kings location) is a valid move;
-		for( int row = 0; row < 7; row++){
-			for( int col = 0; col < 7; col++){
+		for( int row = 0; row <= 7; row++){
+			for( int col = 0; col <= 7; col++){
 				if(board[row][col].getPiece() != null && board[row][col].getPiece().getColor() != playerColor){
 					Piece temp = board[row][col].getPiece();
 					pieceLoc = Chess.coordinatesToString(row, col);
@@ -260,6 +279,72 @@ public class ChessBoard {
 		}
 		
 		return false;
+	}
+	
+	public void castleKing(String origin, String dest){
+		int[] coordOg = Chess.stringToCoordinants(origin);
+		int[] coordDt = Chess.stringToCoordinants(dest);
+		
+		if(dest.charAt(0) == 'c'){
+			// move the pieces
+			// move king
+			movePiece(origin, dest);
+			// move rook
+			int[] tempOg = {Chess.intFromCharInt(dest.charAt(1)), Chess.intFromLetter(dest.charAt(0)) -2};
+			int[] tempDt = {coordDt[0], coordDt[1] +1};
+			movePiece( tempOg, tempDt);
+		}else if(dest.charAt(0) == 'g'){
+			// move the pieces
+			// move king
+			movePiece(coordOg, coordDt);
+			// move rook
+			int[] tempOg = {Chess.intFromCharInt(dest.charAt(1)), Chess.intFromLetter(dest.charAt(0)) +1};
+			int[] tempDt = {coordDt[0], coordDt[1] -1};
+			movePiece( tempOg, tempDt);
+		}
+		
+	}
+	
+	public void undoCastling(int[] kingsLoc){
+		// find out where the king is and put the rook and king back into their respectful locations
+		if(kingsLoc[0] == 0 && kingsLoc[1] == 2){
+			
+			// move king
+			movePiece("c8", "e8");
+			findPiece("e8").setMoved(false);
+			//move rook
+			movePiece("d8", "a8");
+			findPiece("a8").setMoved(false);
+		}else if(kingsLoc[0] == 0 && kingsLoc[1] == 6){
+			
+			// move king
+			movePiece("g8", "e8");
+			findPiece("e8").setMoved(false);
+			//move rook
+			movePiece("f8", "h8");
+			findPiece("h8").setMoved(false);
+		}else if(kingsLoc[0] == 7 && kingsLoc[1] == 2){
+			
+			// move king
+			movePiece("c1", "e1");
+			findPiece("e1").setMoved(false);
+			//move rook
+			movePiece("d1", "a1");
+			findPiece("a1").setMoved(false);
+		}else if(kingsLoc[0] == 7 && kingsLoc[1] == 6){
+			
+			// move king
+			movePiece("g1", "e1");
+			findPiece("e1").setMoved(false);
+			//move rook
+			movePiece("f1", "h1");
+			findPiece("h1").setMoved(false);
+		}else{
+			return;
+		}
+
+		
+		
 	}
 	
 	/**
