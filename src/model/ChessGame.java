@@ -46,6 +46,7 @@ public class ChessGame {
 			System.out.println();
 			
 			if(inCheck){
+				
 				System.out.println("Check");
 			}
 			
@@ -55,11 +56,10 @@ public class ChessGame {
 			}else{
 				System.out.print("Black's move: ");
 			}
-			String move = reader.nextLine();
-			//System.out.print(move);
-			correctFormat = checkFormat(move);
-			//System.out.println(correctFormat);
 			
+			// check the format
+			String move = reader.nextLine();
+			correctFormat = checkFormat(move);
 			while(correctFormat == false){
 				System.out.println();
 				System.out.print("Invalid input, try again: ");
@@ -67,6 +67,7 @@ public class ChessGame {
 				correctFormat = checkFormat(move);
 			}
 			
+			// check to see if valid move
 			validMove = processInput(move, currentMove);
 			while(!validMove){
 				if(currentMove.getPlayerColor() == 'w'){
@@ -78,7 +79,7 @@ public class ChessGame {
 				validMove = processInput(move, currentMove);
 			}
 			
-			// Update piece outlooks (en passant, check...)
+			// Check for En Passant
 			if(board.getEnPassantEligible() != null){
 				Pawn EP = (Pawn)board.getEnPassantEligible();
 				if(EP.getColor() != currentMove.getPlayerColor()){
@@ -86,15 +87,25 @@ public class ChessGame {
 					board.clearEnPassant();
 				}
 			}
-			
+			// Check for check
 			if(currentMove.getPlayerColor() == 'w' && board.putInCheck(board.blackKingLocation, 'b')){
 				King temp = (King)board.findPiece(Chess.coordinatesToString(board.blackKingLocation[0], board.blackKingLocation[1]));
 				temp.setInCheck(true);
 				inCheck = true;
+				/*
+				if(checkMateCheck()){
+					System.out.println("Checkmate");
+					setWinner(currentMove);
+				}*/
 			}else if(board.putInCheck(board.whiteKingLocation, 'w')){
 				King temp = (King)board.findPiece(Chess.coordinatesToString(board.whiteKingLocation[0], board.whiteKingLocation[1]));
 				temp.setInCheck(true);
 				inCheck = true;
+				/*
+				if(checkMateCheck()){
+					System.out.println("Checkmate");
+					setWinner(currentMove);
+				}*/
 			}else{
 				if(currentMove.getPlayerColor() == 'w'){
 					King temp = (King)board.findPiece(Chess.coordinatesToString(board.blackKingLocation[0], board.blackKingLocation[1]));
@@ -358,6 +369,52 @@ public class ChessGame {
 		// HOW TO SEE IF OPPONENT IS IN CHECK AFTER THIS MOVE?
 		// HOW TO SEE IF THIS MOVE IS PUTTING THE USER IN CHECK?
 		return true;
+	}
+	
+	/**
+	 * 
+	 * method check to see if there is a checkmate
+	 * 
+	 * @return boolean. Whether or not there is a checkmate
+	 */
+	public boolean checkMateCheck(){
+		
+		// loop through the board looking for all piece of currentMove.getPlayerColor()
+		// For each piece, go through the whole board and see is the moves are valid
+		// and if any bring there king out of check
+		for(int i = 0; i <= 7; i ++){
+			for(int j = 0; j <= 7; j++){
+				if(board.board[i][j].getPiece() != null && board.board[i][j].getPiece().getColor() != currentMove.getPlayerColor()){
+					Piece temp = board.board[i][j].getPiece();
+					// run through the whole board to see if any moves bring it out of check
+					for(int a = 0; a <= 7; a++){
+						for(int b = 0; b <= 7; b++){
+							if(temp.isMoveValid(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board)){
+								// check which team
+								if(currentMove.getPlayerColor() =='w'){
+									if(!board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.whiteKingLocation, 'b')){
+										// not in check mate
+										return false;
+									}
+								}else{
+									if(!board.beforeMoveCheck(Chess.coordinatesToString(i, j), Chess.coordinatesToString(a, b), board.blackKingLocation, 'w')){
+										// not in check mate
+										return false;
+									}
+								}
+								
+							}
+						}
+					}
+					
+				}
+			}
+		}
+		
+		// went through the whole list and no move can get the king out of check
+		// it is in check mate
+		return true;
+		
 	}
 
 
